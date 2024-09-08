@@ -1,11 +1,17 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head></head>
+<head>
+	<style>
+		.btn-back {
+            float: right;
+        }
+	</style>
+</head>
 <body>
 	<div th:fragment="footer">
 		<footer class="text-muted py-5">
 			<div class="container">
-				<p class="float-end mb-1">
+				<p class="float-end mb-1 btn-back">
 					<a href="#">Back to top</a>
 				</p>
 				<p>

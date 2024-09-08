@@ -10,9 +10,28 @@
 		  crossorigin="anonymous">
 	<style>
 		/* Adjust top padding to account for fixed header */
-		body {
-			padding-top: 70px;
-		}
+        body {
+            padding-top: 70px;
+        }
+        .card-custom {
+            background-color: #f8f9fa; /* Light gray background for card */
+            border-radius: 0.5rem; /* Rounded corners */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+            margin-bottom: 40px; /* Space between cards */
+        }
+        .card-header-custom {
+            background-color: #e9ecef; /* Light gray background matching card */
+            border-bottom: 1px solid #dee2e6; /* Border to separate header from body */
+            border-radius: 0.5rem 0.5rem 0 0; /* Rounded top corners matching card */
+            padding: 10px; /* Padding inside the header */
+            margin: 0; /* Remove default margin to align with card edges */
+        }
+        .card-body {
+            padding: 20px; /* Padding inside the card body */
+        }
+        .btn-view {
+            float: right;
+        }
 	</style>
 </head>
 <body>
@@ -20,9 +39,9 @@
 <div th:insert="~{fragments/header :: header}"></div>
 
 <main>
-	<section class="py-5 text-center container">
+	<section class="py-5 container">
 		<div class="row">
-			<div class="col-lg-6 col-md-8 col-lg-offset-3 col-md-offset-2">
+			<div class="col-md-12 mb-4 text-center">
 				<h1 class="fw-light">Book Club</h1>
 				<p class="lead text-muted">
 					Welcome to the Book Club app, your
@@ -32,11 +51,43 @@
 				</p>
 			</div>
 		</div>
+		<div class="row">
+			<!-- Thymeleaf each directive to iterate over the list of books -->
+			<div class="col-md-12">
+				<div class="row">
+					<div class="col-md-12 mb-4" th:each="book : ${books}">
+						<div class="card card-custom">
+							<div class="card-header card-header-custom">
+								<h4 class="mb-0" th:text="${book.getTitle()}">Book Title</h4>
+							</div>
+							<div class="card-body">
+								<p class="card-text">
+									<strong>Description:</strong>
+									<span th:text="${book.getDescription()}">Book description goes here.</span>
+								</p>
+								<p class="card-text">
+									<strong>Number of Pages:</strong>
+									<span th:text="${book.getNumOfPages()}"></span>
+								</p>
+								<p class="card-text">
+									<strong>Authors:</strong>
+								<ul>
+									<li th:each="author : ${book.getAuthors()}" th:text="${author}">Author Name</li>
+								</ul>
+								</p>
+								<a href="#" th:href="@{/{id}(id=${book.getIsbn()})}" class="btn btn-primary btn-view">View Details</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 	</section>
 </main>
 
 <!-- Insert footer -->
 <div th:insert="~{fragments/footer :: footer}"></div>
 <div th:insert="~{fragments/scriptFooter :: scriptFooter}"></div>
+
 </body>
 </html>
