@@ -10,6 +10,7 @@ public class MemBookDao implements BookDao {
 
     // Private fields
     private List<Book> books;
+
     // Constructor to initialize the list with five books
     public MemBookDao() {
         books = new ArrayList<>();
