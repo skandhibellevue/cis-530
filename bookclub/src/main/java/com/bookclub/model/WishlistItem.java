@@ -2,6 +2,7 @@ package com.bookclub.model;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import org.springframework.data.annotation.Id;
 
 public class WishlistItem {
     @NotNull(message = "ISBN is a required field.")
@@ -11,6 +12,9 @@ public class WishlistItem {
     @NotNull(message = "Title is a required field.")
     @NotEmpty(message = "Title is a required field.")
     private String title;
+
+    @Id
+    private String id;
 
     // Default constructor
     public WishlistItem() {
@@ -39,10 +43,18 @@ public class WishlistItem {
         this.title = title;
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
     // Override toString method
     @Override
     public String toString() {
-        return "WishlistItem{isbn=" + isbn + ", title=" + title + "}";
+        return "WishlistItem{id=" + id + "isbn=" + isbn + ", title=" + title + "}";
     }
 }
 
