@@ -1,38 +1,39 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
 </head>
 <body>
 <header th:fragment="header">
 	<nav class="navbar navbar-default navbar-fixed-top">
-		<div class="container-fluid">
-			<!-- Brand and toggle get grouped for better mobile display -->
-			<div class="navbar-header">
-				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbarNav"
-						aria-expanded="false">
-					<span class="sr-only">Toggle navigation</span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-				</button>
-				<a class="navbar-brand" href="/">Bookclub</a>
-			</div>
-
-			<!-- Collect the nav links, forms, and other content for toggling -->
-			<div class="collapse navbar-collapse" id="navbarNav">
+		<div class="collapse navbar-collapse" id="navbarText">
+			<div class="container-fluid">
 				<ul class="nav navbar-nav">
 					<li>
-						<a href="/about" th:href="@{/about}">About Us</a>
+						<a href="/" class="navbar-brand" style="margin-top: 9px;">Bookclub</a>
 					</li>
 					<li>
-						<a href="/contact" th:href="@{/contact}">Contact Us</a>
+						<a href="/about" th:href="@{/about}" class="btn btn-outline-light navbar-btn">About Us</a>
 					</li>
 					<li>
-						<a href="/wishlist" th:href="@{/wishlist}">Whishlist</a>
+						<a href="/contact" th:href="@{/contact}" class="btn btn-outline-light navbar-btn">Contact Us</a>
+					</li>
+					<li>
+						<a href="/wishlist" th:href="@{/wishlist}" class="btn btn-outline-light navbar-btn">Wishlist</a>
 					</li>
 				</ul>
-			</div><!-- /.navbar-collapse -->
-		</div><!-- /.container-fluid -->
+
+				<ul class="nav navbar-nav navbar-right">
+					<li sec:authorize="isAuthenticated()" style="margin-top: 9px;">
+						<span class="navbar-text">
+							Logged in as <strong sec:authentication="name"></strong>
+						</span>
+					</li>
+					<li sec:authorize="isAuthenticated()">
+						<a th:href="@{/logout}" class="btn btn-outline-danger navbar-btn">Logout</a>
+					</li>
+				</ul>
+			</div>
+		</div>
 	</nav>
 </header>
 </body>
