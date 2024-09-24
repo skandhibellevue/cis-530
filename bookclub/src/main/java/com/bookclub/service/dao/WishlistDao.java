@@ -4,7 +4,7 @@ import com.bookclub.model.WishlistItem;
 import com.bookclub.service.GenericCrudDao;
 import org.springframework.stereotype.Repository;
 
-public interface WishlistDao extends GenericCrudDao {
+public interface WishlistDao extends GenericCrudDao<WishlistItem, String> {
 
 }
 

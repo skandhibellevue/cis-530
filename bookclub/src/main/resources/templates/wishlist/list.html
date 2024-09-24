@@ -12,6 +12,7 @@
         body {
             padding-top: 70px;
         }
+
         .card-custom {
             background-color: #f8f9fa;
             border-radius: 0.5rem;
@@ -19,6 +20,7 @@
             margin: 20px auto;
             max-width: 800px;
         }
+
         .card-body {
             padding: 20px;
         }
@@ -31,7 +33,6 @@
 
 <main>
     <section class="py-5 container">
-        <!-- Center the title and button -->
         <div>
             <div>
                 <h1 class="mb-0 mr-3" style="text-align: center;">My Wishlist</h1>
@@ -41,32 +42,12 @@
             </div>
         </div>
 
-        <!-- Display Wishlist Items in a card -->
+        <!-- Replace the static table with a dynamic div -->
         <div class="row">
             <div class="col-md-12">
                 <div class="card card-custom">
                     <div class="card-body">
-                        <table class="table table-striped">
-                            <thead>
-                            <tr>
-                                <th>ISBN</th>
-                                <th>Title</th>
-                                <th>Functions</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr th:each="item : ${wishlist}">
-                                <td th:text="${item.isbn}"></td>
-                                <td th:text="${item.title}"></td>
-                                <td>
-                                    <a th:href="@{/wishlist/edit/{isbn}(isbn=${item.isbn})}"><u>Edit</u></a>
-                                    <span> | </span>
-                                    <a th:href="@{/wishlist/delete/{isbn}(isbn=${item.isbn})}"
-                                       onclick="return confirm('Are you sure you want to delete this item?')"><u>Delete</u></a>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
+                        <div id="wishlist"></div>
                     </div>
                 </div>
             </div>
@@ -77,6 +58,48 @@
 <!-- Insert footer -->
 <div th:replace="fragments/footer :: footer"></div>
 <div th:replace="fragments/scriptFooter :: scriptFooter"></div>
+
+<script>
+    // Define the HttpClient class responsible for making the GET request
+    class HttpClient {
+        async get(url, params = "") {
+            url = new URL(url);
+            url.search = new URLSearchParams(params).toString();
+
+            const res = await fetch(url.toString(), {
+                method: 'GET',
+            });
+
+            return res.json();
+        }
+    }
+
+    // Function to build the dynamic table from the wishlist items
+    function buildTable(books) {
+        let tableString = `<table class="table table-striped"><thead><tr><th>ISBN</th><th>Title</th><th>Functions</th></tr></thead><tbody>`;
+        for (let book of books) {
+            tableString += `<tr>
+                                <td>${book.isbn}</td>
+                                <td>${book.title}</td>
+                                <td>
+                                    <a href="/wishlist/edit/${book.isbn}">Edit</a> |
+                                    <a href="/wishlist/delete/${book.isbn}" onclick="return confirm('Are you sure you want to delete this item?')">Delete</a>
+                                </td>
+                            </tr>`;
+        }
+        tableString += `</tbody></table>`;
+        return tableString;
+    }
+
+    // Fetch the wishlist data and populate the table dynamically
+    const http = new HttpClient();
+    http.get('http://localhost:8080/api/wishlist').then(res => {
+        console.log(res);
+        document.getElementById("wishlist").innerHTML = buildTable(res);
+    }).catch(e => {
+        console.log(e);
+    });
+</script>
 
 </body>
 </html>

@@ -28,6 +28,11 @@
 							Logged in as <strong sec:authentication="name"></strong>
 						</span>
 					</li>
+					<li class="nav-item">
+						<a href="/swagger-ui.html" target="_blank" class="btn btn-outline-danger navbar-btn">
+							OpenAPI Specification
+						</a>
+					</li>
 					<li sec:authorize="isAuthenticated()">
 						<a th:href="@{/logout}" class="btn btn-outline-danger navbar-btn">Logout</a>
 					</li>
