@@ -1,26 +1,27 @@
 package com.bookclub.model;
 
 import java.util.List;
+import java.util.Objects;
 
 public class Book {
     // Private fields
     private String isbn;
     private String title;
     private String description;
+    private String infoUrl;
     private int numOfPages;
-    private List<String> authors;
 
     // Default constructor
     public Book() {
     }
 
     // Constructor with parameters
-    public Book(String isbn, String title, String description, int numOfPages, List<String> authors) {
+    public Book(String isbn, String title, String description, String infoUrl, int numOfPages) {
         this.isbn = isbn;
         this.title = title;
         this.description = description;
+        this.infoUrl = infoUrl;
         this.numOfPages = numOfPages;
-        this.authors = authors;
     }
 
     // Getter and setter for isbn
@@ -50,6 +51,15 @@ public class Book {
         this.description = description;
     }
 
+    // Getter and setter for infoUrl
+    public String getInfoUrl() {
+        return infoUrl;
+    }
+
+    public void setInfoUrl(String infoUrl) {
+        this.infoUrl = infoUrl;
+    }
+
     // Getter and setter for numOfPages
     public int getNumOfPages() {
         return numOfPages;
@@ -59,15 +69,6 @@ public class Book {
         this.numOfPages = numOfPages;
     }
 
-    // Getter and setter for authors
-    public List<String> getAuthors() {
-        return authors;
-    }
-
-    public void setAuthors(List<String> authors) {
-        this.authors = authors;
-    }
-
     // Override toString method
     @Override
     public String toString() {
@@ -75,8 +76,8 @@ public class Book {
                 "isbn='" + isbn + '\'' +
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
+                ", infoUrl='" + infoUrl + '\'' +
                 ", numOfPages=" + numOfPages +
-                ", authors=" + authors +
                 '}';
     }
 }
