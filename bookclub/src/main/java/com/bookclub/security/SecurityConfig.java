@@ -19,6 +19,9 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+                .csrf(csrf -> csrf
+                        .ignoringRequestMatchers("/wishlist/remove/**")  // Disable CSRF for the remove endpoint
+                )
                 .authorizeHttpRequests(authz -> authz
                         .anyRequest().authenticated()
                 )

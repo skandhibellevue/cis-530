@@ -6,11 +6,10 @@ import com.bookclub.service.impl.MongoWishlistDao;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.security.core.Authentication;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -26,6 +25,13 @@ public class WishlistController {
         return "wishlist/list";
     }
 
+    @RequestMapping(method = RequestMethod.GET, path = "/{id}")
+    public String showWishlistItem(@PathVariable String id, Model model) {
+        WishlistItem wishlistItem = wishlistDao.find(id);
+        model.addAttribute("wishlistItem", wishlistItem);
+        return "wishlist/view";
+    }
+
     // Wishlist form
     @GetMapping("/new")
     public String wishlistForm(Model model) {
@@ -35,13 +41,42 @@ public class WishlistController {
 
     // Add wishlist item
     @PostMapping
-    public String addWishlistItem(@Valid WishlistItem wishlistItem, BindingResult bindingResult) {
+    public String addWishlistItem(@Valid WishlistItem wishlistItem, BindingResult bindingResult, Authentication authentication) {
+        String username = authentication.getName();
         if (bindingResult.hasErrors()) {
             return "wishlist/new";
         }
-
+        wishlistItem.setUsername(username);
         wishlistDao.add(wishlistItem);
 
+        return "redirect:/wishlist";
+    }
+
+    // View a specific wishlist item by its ID
+    @GetMapping("/view/{id}")
+    public String viewWishlistItem(@PathVariable String id, Model model) {
+        WishlistItem wishlistItem = wishlistDao.find(id);
+        model.addAttribute("wishlistItem", wishlistItem);
+        return "wishlist/view";  // Return the view page
+    }
+
+    // Update Wishlist Item
+    @RequestMapping(method = RequestMethod.POST, path = "/update")
+    public String updateWishlistItem(@Valid WishlistItem wishlistItem, BindingResult bindingResult, Authentication authentication) {
+        wishlistItem.setUsername(authentication.getName());
+
+        if (bindingResult.hasErrors()) {
+            return "wishlist/view";
+        }
+        wishlistDao.update(wishlistItem);
+
+        return "redirect:/wishlist";
+    }
+
+    // Remove Wishlist Item
+    @PostMapping("/remove/{id}")
+    public String removeWishlistItem(@PathVariable String id) {
+        wishlistDao.remove(id);
         return "redirect:/wishlist";
     }
 

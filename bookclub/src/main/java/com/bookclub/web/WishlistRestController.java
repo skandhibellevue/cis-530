@@ -2,8 +2,8 @@ package com.bookclub.web;
 
 import com.bookclub.model.WishlistItem;
 import com.bookclub.service.dao.WishlistDao;
-import com.bookclub.service.impl.MongoWishlistDao;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,11 +15,6 @@ public class WishlistRestController {
 
     private WishlistDao wishlistDao;
 
-    // Instantiate MongoWishlistDao
-    public WishlistRestController() {
-        this.wishlistDao = new MongoWishlistDao();
-    }
-
     // Setter method with @Autowired for dependency injection
     @Autowired
     public void setWishlistDao(WishlistDao wishlistDao) {
@@ -28,8 +23,10 @@ public class WishlistRestController {
 
     // GET method to return the list of wishlist items
     @GetMapping
-    public List<WishlistItem> showWishlist() {
-        return wishlistDao.list();
+    public List<WishlistItem> showWishlist(Authentication authentication) {
+        String username = authentication.getName();
+        List<WishlistItem> wishes = wishlistDao.list(username);
+        return wishes;  // Pass in the username
     }
 
     // GET method to find wishlist item by ID

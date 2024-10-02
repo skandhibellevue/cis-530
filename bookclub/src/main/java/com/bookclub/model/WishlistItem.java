@@ -15,15 +15,17 @@ public class WishlistItem {
 
     @Id
     private String id;
+    private String username;
 
     // Default constructor
     public WishlistItem() {
     }
 
     // Parameterized constructor
-    public WishlistItem(String isbn, String title) {
+    public WishlistItem(String isbn, String title, String username) {
         this.isbn = isbn;
         this.title = title;
+        this.username = username;
     }
 
     // Getters and setters
@@ -51,6 +53,14 @@ public class WishlistItem {
         this.id = id;
     }
 
+    // Getters and setters for username
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
     // Override toString method
     @Override
     public String toString() {
