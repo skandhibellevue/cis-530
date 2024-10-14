@@ -22,7 +22,11 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf
                         .ignoringRequestMatchers("/wishlist/remove/**")  // Disable CSRF for the remove endpoint
                 )
+                .csrf(csrf -> csrf
+                        .ignoringRequestMatchers("/monthly-books/remove/**")  // Disable CSRF for the remove endpoint
+                )
                 .authorizeHttpRequests(authz -> authz
+                        .requestMatchers("/monthly-books/**").hasRole("ADMIN")  // Restrict access to ADMIN role
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form

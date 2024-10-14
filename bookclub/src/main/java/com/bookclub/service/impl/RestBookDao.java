@@ -17,15 +17,12 @@ import java.util.List;
 public class RestBookDao implements BookDao {
 
     @Override
-    public List<Book> list() {
+    public List<Book> list(String isbnString) {
         List<Book> books = new ArrayList<>();
-
-        // Hardcoded ISBNs
-        String isbnList = "ISBN:9783161484100,9780452284234,9780743273565,9780593099322,9780261102361,9780261102378,9780590302715, 9780316769532";
 
         try {
             // Call the getBooksDoc() method to fetch the book data
-            Object jsonBooks = getBooksDoc(isbnList);
+            Object jsonBooks = getBooksDoc(isbnString);
 
             // Use JsonPath to extract the relevant data for each book and build a list of books
             List<String> titles = JsonPath.read(jsonBooks, "$..title");
